@@ -1,0 +1,228 @@
+[
+ {
+  "title": "LoD2-VHR",
+  "year": 2014,
+  "url": "https://app.notion.com/p/Qin-2014-4214d8a9b22181d18e80dee985999094",
+  "fullTitle": "Change detection on LOD 2 building models with very high resolution spaceborne stereo imagery",
+  "Input": [
+   "LoD2 → Stereo pair"
+  ],
+  "Decision unit": [
+   "Roof face"
+  ],
+  "Output level": [
+   "Binary only"
+  ],
+  "Core": [
+   "ML"
+  ]
+ },
+ {
+  "title": "BCE-Net",
+  "year": 2023,
+  "url": "https://app.notion.com/p/Liao-et-al-2023-4214d8a9b2218135bad0e868a217ba30",
+  "fullTitle": "BCE-Net: Reliable Building Footprints Change Extraction based on Historical Map and Up-to-Date Images using Contrastive Learning",
+  "Input": [
+   "Footprints → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "1 Type",
+   "2 Footprint"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "Historical-map-aid",
+  "year": 2023,
+  "url": "https://app.notion.com/p/Feng-et-al-2023-4214d8a9b2218132a97bc7ea2b10e51a",
+  "fullTitle": "Detection of Changes in Buildings in Remote Sensing Images via Self-Supervised Contrastive Pre-Training and Historical Geographic Information System Vector Maps",
+  "Input": [
+   "Footprints → Image"
+  ],
+  "Decision unit": [
+   "Building"
+  ],
+  "Output level": [
+   "1 Type",
+   "2 Footprint"
+  ],
+  "Core": [
+   "DL",
+   "Rule-based"
+  ]
+ },
+ {
+  "title": "MTBIT",
+  "year": 2023,
+  "url": "https://app.notion.com/p/Marsocci-et-al-2023-4214d8a9b221814fad3ee45b4b71b206",
+  "fullTitle": "Inferring 3D change detection from bitemporal optical images",
+  "Input": [
+   "Image → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "3 Height"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "MapFormer",
+  "year": 2023,
+  "url": "https://app.notion.com/p/Bernhard-et-al-2023-4214d8a9b2218167a3a4f23b8d276841",
+  "fullTitle": "MapFormer: Boosting Change Detection by Using Pre-change Information",
+  "Input": [
+   "Image + Semantic map → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "Binary only"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "MMCD",
+  "year": 2024,
+  "url": "https://app.notion.com/p/Liu-et-al-2024-4214d8a9b22181a59bd8e59f61b402b2",
+  "fullTitle": "Transformer-based Multimodal Change Detection with Multitask Consistency Constraints",
+  "Input": [
+   "DSM → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "1 Type",
+   "3 Height"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "3DGS-CD",
+  "year": 2025,
+  "url": "https://app.notion.com/p/Lu-et-al-2025-4214d8a9b221810c90b7d21039f85bd7",
+  "fullTitle": "3DGS-CD: 3D Gaussian Splatting-based Change Detection for Physical Object Rearrangement",
+  "Input": [
+   "Multi-view → Multi-view"
+  ],
+  "Decision unit": [
+   "Object"
+  ],
+  "Output level": [
+   "4 3D"
+  ],
+  "Core": [
+   "NeRF/GS",
+   "DL"
+  ]
+ },
+ {
+  "title": "BCTDNet",
+  "year": 2025,
+  "url": "https://app.notion.com/p/Zhang-et-al-2025-4214d8a9b221818c9255cb30088727e4",
+  "fullTitle": "BCTDNet: Building Change-Type Detection Networks with the Segment Anything Model in Remote Sensing Images",
+  "Input": [
+   "Image → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "1 Type",
+   "2 Footprint"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "CL-Splats",
+  "year": 2025,
+  "url": "https://app.notion.com/p/Ackermann-et-al-2025-4214d8a9b22181f18312e691675c604d",
+  "fullTitle": "CL-Splats: Continual Learning of Gaussian Splatting with Local Optimization",
+  "Input": [
+   "GS → Multi-view"
+  ],
+  "Decision unit": [
+   "3D primitive"
+  ],
+  "Output level": [
+   "4 3D"
+  ],
+  "Core": [
+   "NeRF/GS",
+   "DL"
+  ]
+ },
+ {
+  "title": "HATFormer",
+  "year": 2025,
+  "url": "https://app.notion.com/p/Liu-et-al-2025-4214d8a9b22181949cabc7b84c45db69",
+  "fullTitle": "HATFormer: Height-aware Transformer for multimodal 3D change detection",
+  "Input": [
+   "DSM → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "1 Type",
+   "3 Height"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "DPG-CD",
+  "year": 2026,
+  "url": "https://app.notion.com/p/Zhang-et-al-2026-4214d8a9b2218106b76ee86dfec7bd44",
+  "fullTitle": "DPG-CD: Depth-Prior-Guided Cross-Modal Joint 2D-3D Change Detection",
+  "Input": [
+   "DSM → Image"
+  ],
+  "Decision unit": [
+   "Pixel"
+  ],
+  "Output level": [
+   "1 Type",
+   "3 Height"
+  ],
+  "Core": [
+   "DL"
+  ]
+ },
+ {
+  "title": "FOTBCD",
+  "year": 2026,
+  "url": "https://app.notion.com/p/Moubane-2026-4214d8a9b22181cf9083c9595f31c765",
+  "fullTitle": "FOTBCD: A Large-Scale Building Change Detection Benchmark from French Orthophotos and Topographic Data",
+  "Input": [
+   "Image → Image"
+  ],
+  "Decision unit": [
+   "Pixel",
+   "Building"
+  ],
+  "Output level": [
+   "1 Type"
+  ],
+  "Core": [
+   "DL"
+  ]
+ }
+]

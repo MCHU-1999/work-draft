@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Change detection literature map</title>
+<style>
+:root{
+  --ign-dark:#7AA43E;--ign-primary:#90C149;--ign-secondary:#B6D688;--ign-light:#EEF5E3;
+  --bg:#fafaf8;--card:#fff;--ink:#1d1d1b;--muted:#6b6a65;--faint:#9a988f;--line:#e6e4dc;--gap:#f1efe8;
+  --chip:var(--ign-light);--chip-line:var(--ign-secondary);--chip-ink:#1d1d1b;
+  --accent:var(--ign-dark);--bar:var(--ign-primary);--track:var(--ign-light);
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#161615;--card:#1f1f1e;--ink:#ecebe6;--muted:#a3a198;--faint:#77756d;--line:#33322f;--gap:#262624;
+  --chip:rgba(144,193,73,.18);--chip-line:rgba(182,214,136,.45);--chip-ink:#EEF5E3;
+  --accent:var(--ign-secondary);--track:rgba(144,193,73,.14);}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:22px;font-weight:600;margin:0 0 4px;padding-left:12px;border-left:4px solid var(--ign-primary)}
+h2{font-size:16px;font-weight:600;margin:0 0 12px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 20px}
+select{font:inherit;font-size:13px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px}
+select:focus{outline:2px solid var(--ign-primary);outline-offset:1px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ign-primary);border-radius:12px;padding:12px 14px}
+.kpi .l{font-size:12px;color:var(--muted)}.kpi .v{font-size:24px;font-weight:600}
+.ctl{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px}
+.mwrap{overflow-x:auto}
+table.m{border-collapse:collapse;width:100%;font-size:12px;min-width:560px}
+table.m th{font-weight:600;color:var(--muted);text-align:left;padding:6px 8px;vertical-align:bottom}
+table.m th.r{white-space:nowrap}
+table.m td{border:1px solid var(--line);padding:6px;vertical-align:top;min-width:90px;height:42px}
+table.m td.gap{background:var(--gap)}
+table.m td .n{float:right;color:var(--faint);font-size:11px}
+.pill{display:inline-block;background:var(--chip);color:var(--chip-ink);border:1px solid var(--chip-line);border-radius:6px;padding:1px 7px;margin:2px 3px 0 0;font-size:11.5px;text-decoration:none}
+a.pill:hover{outline:1px solid var(--accent)}
+.dists{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.dist h3{font-size:13px;font-weight:600;margin:0 0 8px}
+.row{display:grid;grid-template-columns:140px 1fr 24px;gap:8px;align-items:center;font-size:12px;margin:3px 0}
+.row .lab{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.track{background:var(--track);border-radius:4px;height:10px;overflow:hidden}
+.fill{background:var(--bar);height:100%}
+.row .c{text-align:right;color:var(--muted)}
+.row.zero .lab{color:var(--faint)}
+ul.untag{margin:0;padding-left:18px;font-size:13px}
+.note{font-size:12px;color:var(--faint)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Change detection literature map</h1>
+  <p class="sub">From Notion · built 23 Nov 2026, 16:18 · 12 papers</p>
+  <div class="kpis" id="kpis"></div>
+  <section class="card">
+    <h2>Gap matrix</h2>
+    <div class="ctl">
+      <label>Rows <select id="ry"></select></label>
+      <label>Columns <select id="cx"></select></label>
+      <span id="stat"></span>
+    </div>
+    <div class="mwrap" id="matrix"></div>
+    <p class="note">Grey cells: no tagged paper covers this combination. Every paper outputs binary change; "Binary only" means nothing beyond that.</p>
+  </section>
+  <section class="card">
+    <h2>Distribution per dimension</h2>
+    <div class="dists" id="dists"></div>
+  </section>
+  <section class="card">
+    <h2>Not yet tagged</h2>
+    <div id="untagged"></div>
+  </section>
+</main>
+<script>
+const DIMS = {"Input": ["Image → Image", "Image + Semantic map → Image", "Footprints → Image", "DSM → Image", "LoD2 → Stereo pair", "Multi-view → Multi-view", "GS → Multi-view"], "Decision unit": ["Pixel", "Object", "Building", "Roof face", "3D primitive"], "Output level": ["Binary only", "1 Type", "2 Footprint", "3 Height", "4 3D"], "Core": ["Rule-based", "ML", "DL", "NeRF/GS"]};
+const papers = [{"title": "LoD2-VHR", "year": 2014, "url": "https://app.notion.com/p/Qin-2014-4214d8a9b22181d18e80dee985999094", "fullTitle": "Change detection on LOD 2 building models with very high resolution spaceborne stereo imagery", "Input": ["LoD2 → Stereo pair"], "Decision unit": ["Roof face"], "Output level": ["Binary only"], "Core": ["ML"]}, {"title": "BCE-Net", "year": 2023, "url": "https://app.notion.com/p/Liao-et-al-2023-4214d8a9b2218135bad0e868a217ba30", "fullTitle": "BCE-Net: Reliable Building Footprints Change Extraction based on Historical Map and Up-to-Date Images using Contrastive Learning", "Input": ["Footprints → Image"], "Decision unit": ["Pixel"], "Output level": ["1 Type", "2 Footprint"], "Core": ["DL"]}, {"title": "Historical-map-aid", "year": 2023, "url": "https://app.notion.com/p/Feng-et-al-2023-4214d8a9b2218132a97bc7ea2b10e51a", "fullTitle": "Detection of Changes in Buildings in Remote Sensing Images via Self-Supervised Contrastive Pre-Training and Historical Geographic Information System Vector Maps", "Input": ["Footprints → Image"], "Decision unit": ["Building"], "Output level": ["1 Type", "2 Footprint"], "Core": ["DL", "Rule-based"]}, {"title": "MTBIT", "year": 2023, "url": "https://app.notion.com/p/Marsocci-et-al-2023-4214d8a9b221814fad3ee45b4b71b206", "fullTitle": "Inferring 3D change detection from bitemporal optical images", "Input": ["Image → Image"], "Decision unit": ["Pixel"], "Output level": ["3 Height"], "Core": ["DL"]}, {"title": "MapFormer", "year": 2023, "url": "https://app.notion.com/p/Bernhard-et-al-2023-4214d8a9b2218167a3a4f23b8d276841", "fullTitle": "MapFormer: Boosting Change Detection by Using Pre-change Information", "Input": ["Image + Semantic map → Image"], "Decision unit": ["Pixel"], "Output level": ["Binary only"], "Core": ["DL"]}, {"title": "MMCD", "year": 2024, "url": "https://app.notion.com/p/Liu-et-al-2024-4214d8a9b22181a59bd8e59f61b402b2", "fullTitle": "Transformer-based Multimodal Change Detection with Multitask Consistency Constraints", "Input": ["DSM → Image"], "Decision unit": ["Pixel"], "Output level": ["1 Type", "3 Height"], "Core": ["DL"]}, {"title": "3DGS-CD", "year": 2025, "url": "https://app.notion.com/p/Lu-et-al-2025-4214d8a9b221810c90b7d21039f85bd7", "fullTitle": "3DGS-CD: 3D Gaussian Splatting-based Change Detection for Physical Object Rearrangement", "Input": ["Multi-view → Multi-view"], "Decision unit": ["Object"], "Output level": ["4 3D"], "Core": ["NeRF/GS", "DL"]}, {"title": "BCTDNet", "year": 2025, "url": "https://app.notion.com/p/Zhang-et-al-2025-4214d8a9b221818c9255cb30088727e4", "fullTitle": "BCTDNet: Building Change-Type Detection Networks with the Segment Anything Model in Remote Sensing Images", "Input": ["Image → Image"], "Decision unit": ["Pixel"], "Output level": ["1 Type", "2 Footprint"], "Core": ["DL"]}, {"title": "CL-Splats", "year": 2025, "url": "https://app.notion.com/p/Ackermann-et-al-2025-4214d8a9b22181f18312e691675c604d", "fullTitle": "CL-Splats: Continual Learning of Gaussian Splatting with Local Optimization", "Input": ["GS → Multi-view"], "Decision unit": ["3D primitive"], "Output level": ["4 3D"], "Core": ["NeRF/GS", "DL"]}, {"title": "HATFormer", "year": 2025, "url": "https://app.notion.com/p/Liu-et-al-2025-4214d8a9b22181949cabc7b84c45db69", "fullTitle": "HATFormer: Height-aware Transformer for multimodal 3D change detection", "Input": ["DSM → Image"], "Decision unit": ["Pixel"], "Output level": ["1 Type", "3 Height"], "Core": ["DL"]}, {"title": "DPG-CD", "year": 2026, "url": "https://app.notion.com/p/Zhang-et-al-2026-4214d8a9b2218106b76ee86dfec7bd44", "fullTitle": "DPG-CD: Depth-Prior-Guided Cross-Modal Joint 2D-3D Change Detection", "Input": ["DSM → Image"], "Decision unit": ["Pixel"], "Output level": ["1 Type", "3 Height"], "Core": ["DL"]}, {"title": "FOTBCD", "year": 2026, "url": "https://app.notion.com/p/Moubane-2026-4214d8a9b22181cf9083c9595f31c765", "fullTitle": "FOTBCD: A Large-Scale Building Change Detection Benchmark from French Orthophotos and Topographic Data", "Input": ["Image → Image"], "Decision unit": ["Pixel", "Building"], "Output level": ["1 Type"], "Core": ["DL"]}];
+const OUT = "Output level";
+const K = Object.keys(DIMS);
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const values = d => { const v = DIMS[d].slice(); papers.forEach(p=>p[d].forEach(x=>{ if(!v.includes(x)) v.push(x); })); return v; };
+const core = p => K.filter(k=>k!==OUT);
+const tagged = () => papers.filter(p=>K.some(k=>k!==OUT && p[k].length));
+const pill = p => { const t = esc(p.title), tip = esc(p.fullTitle||p.title);
+  return p.url ? '<a class="pill" title="'+tip+'" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+t+'</a>' : '<span class="pill" title="'+tip+'">'+t+'</span>'; };
+
+function kpis(){
+  const t = tagged(), others = K.filter(k=>k!==OUT);
+  const full = t.filter(p=>others.every(k=>p[k].length)).length;
+  const c3d = t.filter(p=>p[OUT].includes("4 3D")).length;
+  $("kpis").innerHTML = [["Papers in database",papers.length],["Tagged",t.length],["Input, unit and core filled",full],["Output 3D",c3d]]
+    .map(c=>'<div class="kpi"><div class="l">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>').join("");
+}
+function matrix(){
+  const rd=$("ry").value, cd=$("cx").value, R=values(rd), C=values(cd), T=tagged(); let empty=0;
+  let h='<table class="m"><tr><th></th>'+C.map(c=>'<th>'+esc(c)+'</th>').join("")+'</tr>';
+  R.forEach(r=>{ h+='<tr><th class="r">'+esc(r)+'</th>';
+    C.forEach(c=>{ const hit = T.filter(p=>p[rd].includes(r) && p[cd].includes(c) && (rd!==cd || r===c));
+      if(!hit.length) empty++;
+      h+='<td class="'+(hit.length?'':'gap')+'">'+(hit.length?'<span class="n">'+hit.length+'</span>':'')+hit.map(pill).join("")+'</td>'; });
+    h+='</tr>'; });
+  $("matrix").innerHTML = h+'</table>';
+  $("stat").textContent = empty+" of "+(R.length*C.length)+" cells empty";
+}
+function dists(){
+  const T=tagged();
+  $("dists").innerHTML = K.map(d=>{ const vs=values(d), n=vs.map(v=>T.filter(p=>p[d].includes(v)).length), mx=Math.max(1,...n);
+    return '<div class="dist"><h3>'+esc(d)+'</h3>'+vs.map((v,i)=>'<div class="row'+(n[i]?'':' zero')+'"><span class="lab" title="'+esc(v)+'">'+esc(v)+'</span><div class="track"><div class="fill" style="width:'+Math.round(100*n[i]/mx)+'%"></div></div><span class="c">'+n[i]+'</span></div>').join("")+'</div>'; }).join("");
+}
+function untagged(){
+  const others = K.filter(k=>k!==OUT);
+  const u = papers.filter(p=>!others.some(k=>p[k].length));
+  const part = papers.filter(p=>others.some(k=>p[k].length) && !others.every(k=>p[k].length));
+  let h = u.length ? '<ul class="untag">'+u.map(p=>'<li>'+pill(p)+(p.year?' <span class="note">'+p.year+'</span>':'')+'</li>').join("")+'</ul>' : '<p class="note">Every paper has at least one tag.</p>';
+  if(part.length) h += '<p class="note" style="margin-top:10px">Partly tagged: '+part.map(p=>esc(p.title)+' (missing '+others.filter(k=>!p[k].length).join(", ")+')').join("; ")+'</p>';
+  $("untagged").innerHTML = h;
+}
+K.forEach(k=>{ $("ry").add(new Option(k,k)); $("cx").add(new Option(k,k)); });
+$("ry").value="Input"; $("cx").value="Output level";
+$("ry").onchange=matrix; $("cx").onchange=matrix;
+kpis(); matrix(); dists(); untagged();
+</script>
+</body>
+</html>
