@@ -11,7 +11,9 @@
    "Roof face"
   ],
   "Output level": [
-   "Binary only"
+   "5 3D",
+   "2 Mask",
+   "3 Footprint"
   ],
   "Core": [
    "ML"
@@ -30,14 +32,14 @@
   ],
   "Output level": [
    "1 Type",
-   "2 Footprint"
+   "2 Mask"
   ],
   "Core": [
    "DL"
   ]
  },
  {
-  "title": "Historical-map-aid",
+  "title": "Historical-BCD",
   "year": 2023,
   "url": "https://app.notion.com/p/Feng-et-al-2023-4214d8a9b2218132a97bc7ea2b10e51a",
   "fullTitle": "Detection of Changes in Buildings in Remote Sensing Images via Self-Supervised Contrastive Pre-Training and Historical Geographic Information System Vector Maps",
@@ -49,7 +51,7 @@
   ],
   "Output level": [
    "1 Type",
-   "2 Footprint"
+   "2 Mask"
   ],
   "Core": [
    "DL",
@@ -68,7 +70,8 @@
    "Pixel"
   ],
   "Output level": [
-   "3 Height"
+   "4 Height",
+   "2 Mask"
   ],
   "Core": [
    "DL"
@@ -105,7 +108,8 @@
   ],
   "Output level": [
    "1 Type",
-   "3 Height"
+   "4 Height",
+   "2 Mask"
   ],
   "Core": [
    "DL"
@@ -123,11 +127,10 @@
    "Object"
   ],
   "Output level": [
-   "4 3D"
+   "5 3D"
   ],
   "Core": [
-   "NeRF/GS",
-   "DL"
+   "NeRF/GS"
   ]
  },
  {
@@ -143,7 +146,7 @@
   ],
   "Output level": [
    "1 Type",
-   "2 Footprint"
+   "2 Mask"
   ],
   "Core": [
    "DL"
@@ -161,11 +164,10 @@
    "3D primitive"
   ],
   "Output level": [
-   "4 3D"
+   "5 3D"
   ],
   "Core": [
-   "NeRF/GS",
-   "DL"
+   "NeRF/GS"
   ]
  },
  {
@@ -181,7 +183,8 @@
   ],
   "Output level": [
    "1 Type",
-   "3 Height"
+   "4 Height",
+   "2 Mask"
   ],
   "Core": [
    "DL"
@@ -200,26 +203,8 @@
   ],
   "Output level": [
    "1 Type",
-   "3 Height"
-  ],
-  "Core": [
-   "DL"
-  ]
- },
- {
-  "title": "FOTBCD",
-  "year": 2026,
-  "url": "https://app.notion.com/p/Moubane-2026-4214d8a9b22181cf9083c9595f31c765",
-  "fullTitle": "FOTBCD: A Large-Scale Building Change Detection Benchmark from French Orthophotos and Topographic Data",
-  "Input": [
-   "Image → Image"
-  ],
-  "Decision unit": [
-   "Pixel",
-   "Building"
-  ],
-  "Output level": [
-   "1 Type"
+   "4 Height",
+   "2 Mask"
   ],
   "Core": [
    "DL"
