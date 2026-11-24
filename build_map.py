@@ -47,7 +47,7 @@ DIMS = {
         "GS → Multi-view",
     ],
     "Decision unit": ["Pixel", "Object", "Building", "Roof face", "3D primitive"],
-    "Output level": ["Binary only", "1 Type", "2 Footprint", "3 Height", "4 3D"],
+    "Output level": ["Binary only", "1 Type", "2 Mask", "3 Footprint", "4 Height", "5 3D"],
     "Core": ["Rule-based", "ML", "DL", "NeRF/GS"],
 }
 OUTPUT_DIM = "Output level"
@@ -260,7 +260,7 @@ ul.untag{margin:0;padding-left:18px;font-size:13px}
       <span id="stat"></span>
     </div>
     <div class="mwrap" id="matrix"></div>
-    <p class="note">Grey cells: no tagged paper covers this combination. Every paper outputs binary change; "Binary only" means nothing beyond that.</p>
+    <p class="note">Grey cells: no tagged paper covers this combination. Every paper outputs binary change; "Binary only" means nothing beyond that. Mask = building extent at t1 as raster; Footprint = vector polygons only; Height = DSM or height difference; 3D = planes, Gaussians, points, polyhedra.</p>
   </section>
   <section class="card">
     <h2>Distribution per dimension</h2>
@@ -287,7 +287,7 @@ const pill = p => { const t = esc(p.title), tip = esc(p.fullTitle||p.title);
 function kpis(){
   const t = tagged(), others = K.filter(k=>k!==OUT);
   const full = t.filter(p=>others.every(k=>p[k].length)).length;
-  const c3d = t.filter(p=>p[OUT].includes("4 3D")).length;
+  const c3d = t.filter(p=>p[OUT].includes("5 3D")).length;
   $("kpis").innerHTML = [["Papers in database",papers.length],["Tagged",t.length],["Input, unit and core filled",full],["Output 3D",c3d]]
     .map(c=>'<div class="kpi"><div class="l">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>').join("");
 }
@@ -349,8 +349,7 @@ def main():
     now = dt.datetime.now().strftime("%d %b %Y, %H:%M")
 
     if args.from_json:
-        papers = json.loads(pathlib
-        .Path(args.from_json).read_text(encoding="utf-8"))
+        papers = json.loads(pathlib.Path(args.from_json).read_text(encoding="utf-8"))
         note = f"Built {now} from {args.from_json} ({len(papers)} papers)"
     else:
         pages = query_all(load_token())
